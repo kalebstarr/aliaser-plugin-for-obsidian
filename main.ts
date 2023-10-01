@@ -234,6 +234,7 @@ class DeletionModal extends Modal {
 
 	onOpen() {
 		const {contentEl} = this;
+
 		contentEl.createEl('h2', {text: 'Are you sure you want to delete the frontmatter?'});
 
 		contentEl.createEl('button', {text: 'Delete?'}).onclick = () => {
@@ -243,10 +244,11 @@ class DeletionModal extends Modal {
 		contentEl.createEl('button', {text: 'Close'}).onclick = () => {
 			this.close();
 		};
-
-		// set the button background color to red
-		contentEl.querySelector('button').style.backgroundColor = 'red';
-		contentEl.querySelector('button').style.margin = '10px';
+		
+		if (contentEl.querySelector('button') != null) {
+			contentEl.querySelector('button').style.backgroundColor = 'red';
+			contentEl.querySelector('button').style.margin = '10px';
+		}
 	}
 
 	onClose() {
