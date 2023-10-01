@@ -153,8 +153,6 @@ class LineCollector {
 		return list;
 	}
 
-
-
 	getDictionary() {
 		const lines = this.getListOfLines();
 		const dictionary = new Map<string, number>();
@@ -178,55 +176,6 @@ class LineCollector {
 		return dictionary;
 	}
 }
-
-// class Collector {
-// 	str: string;
-// 	editor: Editor;
-
-// 	constructor(str: string, editor: Editor) {
-// 		this.str = str;
-// 	}
-
-// 	getDictionary() {
-// 		const dictionary = new Map<string, number>();
-// 		const words = this.str.split(' ');
-// 		for (const word of words) {
-// 			if (dictionary.has(word)) {
-// 				const count = dictionary.get(word);
-// 				if (count !== undefined) {
-// 					dictionary.set(word, count + 1);
-// 				}
-// 			} else {
-// 				dictionary.set(word, 1);
-// 			}
-// 		}
-// 		return dictionary;
-// 	}
-
-// 	getH1List() {
-// 		return this.getList('# ');
-// 	}
-
-// 	getList(symbol: string) {
-// 		const list = new Array<number>();
-// 		let words = this.str;
-// 		let index = 0;
-
-// 		while (words.contains(symbol)) {
-// 			index += words.indexOf(symbol);
-// 			list.push(index);
-// 			words = words.substring(words.indexOf(symbol) + 1);
-// 		}
-
-// 		for (let index = 0; index < list.length; index++) {
-// 			if (list[index] == list[index + 1]) {
-// 				list.splice(index, 1);
-// 			}
-// 		}
-
-// 		return list;
-// 	}
-// }
 
 class SampleSettingTab extends PluginSettingTab {
 	plugin: AliasPlugin;
