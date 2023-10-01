@@ -26,6 +26,10 @@ export default class AliasPlugin extends Plugin {
 				const printer = new Printer(editor);
 				const dictionary = list.getDictionary();
 
+				// Two scenarios:
+				// 1. The frontmatter already exists, and the aliases section is empty
+				// 2. The frontmatter doesn't exist, and the aliases section is empty
+
 
 				editor.setCursor(-1);
 				editor.replaceSelection('---\n');
@@ -34,22 +38,6 @@ export default class AliasPlugin extends Plugin {
 				printer.printAliases(dictionary);
 
 				editor.replaceSelection('---\n');
-			}
-		});
-
-		this.addCommand({
-			id: 'cursor-to-frontmatter-end',
-			name: 'Set cursor to frontmatter end',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-
-				// Two scenarios:
-				// 1. The frontmatter already exists, and the aliases section is empty
-				// 2. The frontmatter doesn't exist, and the aliases section is empty
-				const start = editor.getLine(0).length;
-				const end = editor.getRange({line: 1, ch: 0}, {line: 0, ch: 0}).indexOf('---');
-				const frontmatterLength = end + start;
-
-				editor.setCursor({line: 0, ch: frontmatterLength});
 			}
 		});
 
