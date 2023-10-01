@@ -116,37 +116,6 @@ class Printer {
 			}
 		}
 	}
-	
-	// previous implementation - doesn't allow for counting of headers
-	// print(num: number, str: string) {
-	// 	str = this.removeFirstElement(str);
-	// 	let tempH1 = "";
-	// 	let tempH2 = "";
-
-	// 	let h2Counter = 1;
-	// 	let h3Counter = 1;
-
-	// 	switch (num) {
-	// 		case 1:
-	// 			this.editor.replaceSelection('- [[' + str + "|" + str + "]]\n");
-
-	// 			tempH1 = str;
-	// 			h2Counter = 1;
-	// 			break;
-	// 		case 2:
-	// 			this.editor.replaceSelection('- [[' + tempH1 + "#" + str + "|" + h2Counter + ". " + str + "]]\n");
-				
-	// 			tempH2 = str;
-	// 			h2Counter++;
-	// 			h3Counter = 1;
-	// 			break;
-	// 		case 3:
-	// 			this.editor.replaceSelection('- [[' + tempH1 + "#" + tempH2 + '#' + str + "|" + h3Counter + ". " + str + "]]\n");
-
-	// 			h3Counter++;
-	// 			break;
-	// 	}
-	// }
 
 	private stringRemover(str: string, symbol: string) {
 
