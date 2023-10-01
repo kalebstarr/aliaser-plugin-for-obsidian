@@ -1,0 +1,11 @@
+{
+	"id": "heading-shortcut-for-dataview",
+	"name": "Heading shortcut for dataview",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Add shortuts as aliases to properties of a document.",
+	"author": "KS",
+	"authorUrl": "https://obsidian.md",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
