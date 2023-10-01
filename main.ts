@@ -41,6 +41,20 @@ export default class AliasPlugin extends Plugin {
 			}
 		});
 
+		this.addCommand({
+			id: 'delete-frontmatter',
+			name: 'Delete frontmatter',
+			editorCallback: (editor: Editor, view: MarkdownView) => {
+
+				const firstLineLength = editor.getLine(0).length;
+				const excludeFirstLine = editor.getRange({line: 1, ch: 0}, {line: editor.lastLine(), ch: 0})
+				const frontmatterEnd = excludeFirstLine.indexOf('---');
+				const frontmatterLength = firstLineLength + frontmatterEnd;
+
+				editor.replaceRange(' ', {line: 0, ch: 0}, {line: 1, ch: frontmatterLength});
+			}
+		});
+
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new SampleSettingTab(this.app, this));
 
