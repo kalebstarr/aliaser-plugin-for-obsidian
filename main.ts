@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Plugin, PluginSettingTab, Setting } from 'obsidian';
 
 // Remember to rename these classes and interfaces!
 
@@ -47,11 +47,13 @@ export default class AliasPlugin extends Plugin {
 			editorCallback: (editor: Editor, view: MarkdownView) => {
 
 				const firstLineLength = editor.getLine(0).length;
+
 				const excludeFirstLine = editor.getRange({line: 1, ch: 0}, {line: editor.lastLine(), ch: 0})
 				const frontmatterEnd = excludeFirstLine.indexOf('---');
+
 				const frontmatterLength = firstLineLength + frontmatterEnd;
 
-				editor.replaceRange(' ', {line: 0, ch: 0}, {line: 1, ch: frontmatterLength});
+				new DeletionModal(this.app, editor, frontmatterLength).open();
 			}
 		});
 
@@ -82,6 +84,7 @@ export default class AliasPlugin extends Plugin {
 }
 
 class Printer {
+
 	editor: Editor;
 
 	constructor(editor: Editor) {
@@ -144,6 +147,7 @@ class Printer {
 	}
 
 	private removeFirstElement(str: string) {
+
 		const list = str.split(' ');
 		list.shift();
 		return list.join(' ');
@@ -215,5 +219,35 @@ class SampleSettingTab extends PluginSettingTab {
 					this.plugin.settings.mySetting = value;
 					await this.plugin.saveSettings();
 				}));
+	}
+}
+
+class DeletionModal extends Modal {
+	editor: Editor;
+	frontmatterLength: number;
+
+	constructor(app: App, editor: Editor, frontmatterLength: number) {
+		super(app);
+		this.editor = editor;
+		this.frontmatterLength = frontmatterLength;
+	}
+
+	onOpen() {
+		const {contentEl} = this;
+		// contentEl.setText('Woah!');
+		contentEl.createEl('h2', {text: 'Are you sure you want to delete the frontmatter?'});
+
+		contentEl.createEl('button', {text: 'Delete?'}).onclick = () => {
+			this.editor.replaceRange(' ', {line: 0, ch: 0}, {line: 1, ch: this.frontmatterLength});
+			this.close();
+		}
+		contentEl.createEl('button', {text: 'Close'}).onclick = () => {
+			this.close();
+		}
+	}
+
+	onClose() {
+		const {contentEl} = this;
+		contentEl.empty();
 	}
 }
