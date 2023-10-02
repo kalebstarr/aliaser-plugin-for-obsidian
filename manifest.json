@@ -1,11 +1,11 @@
 {
-	"id": "heading-shortcut-for-dataview",
-	"name": "Heading shortcut for dataview",
-	"version": "1.0.0",
+	"id": "aliaser",
+	"name": "Aliaser",
+	"version": "1.1.0",
 	"minAppVersion": "0.15.0",
-	"description": "Add shortuts as aliases to properties of a document.",
-	"author": "KS",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"description": "Add shortuts as aliases to properties of a document and edit properties",
+	"author": "Kaleb Starr",
+	"authorUrl": "github.com/kalebstarr",
+	"fundingUrl": "",
 	"isDesktopOnly": false
 }
