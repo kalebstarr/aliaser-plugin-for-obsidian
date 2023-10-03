@@ -28,6 +28,9 @@ export default class AliasPlugin extends Plugin {
 				// Two scenarios:
 				// 1. The frontmatter already exists, and the aliases section is empty
 				// 2. The frontmatter doesn't exist, and the aliases section is empty
+				editor.setSelection({line: editor.getCursor().line, ch: 0}, {line: editor.getCursor().line + 1, ch: 0});
+				const selection = editor.getSelection();
+				new AliasModal(this.app, editor, selection).open();
 
 
 				editor.setCursor(-1);
@@ -238,6 +241,43 @@ class DeletionModal extends Modal {
 
 		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
 			this.editor.replaceRange(' ', {line: 0, ch: 0}, {line: 1, ch: this.frontmatterLength});
+			this.close();
+		};
+		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
+			this.close();
+		};
+		
+		// can be ignored, due to button element existing and error handling
+		if (contentEl.querySelector('button') != null) {
+			contentEl.querySelector('button').style.backgroundColor = 'red';
+			contentEl.querySelector('button').style.margin = '10px';
+		}
+	}
+
+	onClose() {
+		const {contentEl} = this;
+		contentEl.empty();
+	}
+}
+
+class AliasModal extends Modal {
+	editor: Editor;
+	selection: string;
+
+	constructor(app: App, editor: Editor, selection: string) {
+		super(app);
+		this.editor = editor;
+		this.selection = selection;
+	}
+
+	onOpen() {
+		const {contentEl} = this;
+
+		contentEl.createEl('h2', {text: 'Is this your heading?'});
+		contentEl.createEl('p', {text: this.selection});
+
+		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
+
 			this.close();
 		};
 		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
