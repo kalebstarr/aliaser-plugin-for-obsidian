@@ -28,8 +28,21 @@ export default class AliasPlugin extends Plugin {
 				// Two scenarios:
 				// 1. The frontmatter already exists, and the aliases section is empty
 				// 2. The frontmatter doesn't exist, and the aliases section is empty
+
+				let confirmFileName = false;
+				new AliasModal(this.app, editor, confirmFileName).open();
+
+
+				if (confirmFileName) {
+					editor.setCursor(-1);
+					editor.replaceSelection('---\n');
+					editor.replaceSelection('aliases:\n');
+
+					printer.printAliases(dictionary);
+
+					editor.replaceSelection('---\n');
+				}
 				
-				new AliasModal(this.app, editor, printer, dictionary).open();
 			}
 		});
 
@@ -252,14 +265,12 @@ class DeletionModal extends Modal {
 
 class AliasModal extends Modal {
 	editor: Editor;
-	printer: Printer;
-	dictionary: Map<string, number>;
+	bool: boolean;
 
-	constructor(app: App, editor: Editor, printer: Printer, dictionary: Map<string, number>) {
+	constructor(app: App, editor: Editor, bool: boolean) {
 		super(app);
 		this.editor = editor;
-		this.printer = printer;
-		this.dictionary = dictionary;
+		this.bool = bool;
 	}
 
 	onOpen() {
@@ -271,13 +282,7 @@ class AliasModal extends Modal {
 		contentEl.createEl('p', {text: selection});
 
 		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
-			this.editor.setCursor(-1);
-			this.editor.replaceSelection('---\n');
-			this.editor.replaceSelection('aliases:\n');
-
-			this.printer.printAliases(this.dictionary);
-
-			this.editor.replaceSelection('---\n');
+			this.bool = true;
 			this.close();
 		};
 		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
