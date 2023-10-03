@@ -15,7 +15,6 @@ export default class AliasPlugin extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
-		// This adds an editor command that can perform some operation on the current editor instance
 		this.addCommand({
 			id: 'headers-to-frontmatter',
 			name: 'Convert headers to frontmatter',
@@ -237,14 +236,15 @@ class DeletionModal extends Modal {
 
 		contentEl.createEl('h2', {text: 'Are you sure you want to delete the frontmatter?'});
 
-		contentEl.createEl('button', {text: 'Delete?'}).onclick = () => {
+		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
 			this.editor.replaceRange(' ', {line: 0, ch: 0}, {line: 1, ch: this.frontmatterLength});
 			this.close();
 		};
-		contentEl.createEl('button', {text: 'Close'}).onclick = () => {
+		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
 			this.close();
 		};
 		
+		// can be ignored, due to button element existing and error handling
 		if (contentEl.querySelector('button') != null) {
 			contentEl.querySelector('button').style.backgroundColor = 'red';
 			contentEl.querySelector('button').style.margin = '10px';
