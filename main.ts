@@ -29,20 +29,9 @@ export default class AliasPlugin extends Plugin {
 				// 1. The frontmatter already exists, and the aliases section is empty
 				// 2. The frontmatter doesn't exist, and the aliases section is empty
 
-				let confirmFileName = false;
-				new AliasModal(this.app, editor, confirmFileName).open();
+				new AliasModal(this.app, editor).open();
 
-
-				if (confirmFileName) {
-					editor.setCursor(-1);
-					editor.replaceSelection('---\n');
-					editor.replaceSelection('aliases:\n');
-
-					printer.printAliases(dictionary);
-
-					editor.replaceSelection('---\n');
-				}
-				
+				printer.printAliases(dictionary);
 			}
 		});
 
@@ -104,11 +93,16 @@ class Printer {
 	}
 
 	printAliases(map: Map<string, number>) {
-			let tempH1 = "";
-			let tempH2 = "";
+		let tempH1 = "";
+		let tempH2 = "";
 
-			let h2Counter = 1;
-			let h3Counter = 1;
+		let h2Counter = 1;
+		let h3Counter = 1;
+
+		// properties start section
+		this.editor.setCursor(-1);
+		this.editor.replaceSelection('---\n');
+		this.editor.replaceSelection('aliases:\n');
 
 		
 		for (const line of map) {
@@ -138,6 +132,9 @@ class Printer {
 					break;
 			}
 		}
+
+		// properties end section
+		this.editor.replaceSelection('---\n');
 	}
 
 	private stringRemover(str: string, symbol: string) {
@@ -265,12 +262,10 @@ class DeletionModal extends Modal {
 
 class AliasModal extends Modal {
 	editor: Editor;
-	bool: boolean;
 
-	constructor(app: App, editor: Editor, bool: boolean) {
+	constructor(app: App, editor: Editor) {
 		super(app);
 		this.editor = editor;
-		this.bool = bool;
 	}
 
 	onOpen() {
@@ -282,7 +277,7 @@ class AliasModal extends Modal {
 		contentEl.createEl('p', {text: selection});
 
 		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
-			this.bool = true;
+			
 			this.close();
 		};
 		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
