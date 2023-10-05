@@ -1,6 +1,7 @@
 import { App, Editor, MarkdownView, Modal, Plugin, PluginSettingTab, Setting } from 'obsidian';
 
-// Remember to rename these classes and interfaces!
+// TODO: A section that allows the user to define more aliases that should be included in the frontmatter
+// TODO: Remove the string of the headerSelection from file in headers-to-frontmatter
 
 interface AliasPluginSettings {
 	mySetting: string;
