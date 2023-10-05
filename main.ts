@@ -25,13 +25,17 @@ export default class AliasPlugin extends Plugin {
 				const printer = new Printer(editor);
 				const dictionary = list.getDictionary();
 
-				// Two scenarios:
+				editor.setSelection({line: editor.getCursor().line, ch: 0}, {line: editor.getCursor().line + 1, ch: 0});
+				const  headerSelection = editor.getSelection().replace('\n', '');
+
+				// Three scenarios:
 				// 1. The frontmatter already exists, and the aliases section is empty
-				// 2. The frontmatter doesn't exist, and the aliases section is empty
+				// 2. The frontmatter already exists, and the aliases section is not empty
+				// 3. The frontmatter doesn't exist, and the aliases section is empty
 
 				new AliasModal(this.app, editor).open();
 
-				printer.printAliases(dictionary);
+				printer.printAliases(dictionary, headerSelection);
 			}
 		});
 
@@ -92,7 +96,7 @@ class Printer {
 		this.editor.getValue();
 	}
 
-	printAliases(map: Map<string, number>) {
+	printAliases(map: Map<string, number>, headerSelection: string) {
 		let tempH1 = "";
 		let tempH2 = "";
 
@@ -113,20 +117,20 @@ class Printer {
 
 			switch (num) {
 				case 1:
-					this.editor.replaceSelection('- "[[' + str + '|' + str + ']]"\n');
+					this.editor.replaceSelection('- "[[' + headerSelection + '#' + str + '|' + str + ']]"\n');
 
 					tempH1 = str;
 					h2Counter = 1;
 					break;
 				case 2:
-					this.editor.replaceSelection('- "[[' + tempH1 + '#' + str + '|' + h2Counter + '. ' + str + ']]"\n');
+					this.editor.replaceSelection('- "[[' + headerSelection + '#' + tempH1 + '#' + str + '|' + h2Counter + '. ' + str + ']]"\n');
 					
 					tempH2 = str;
 					h2Counter++;
 					h3Counter = 1;
 					break;
 				case 3:
-					this.editor.replaceSelection('- "[[' + tempH1 + '#' + tempH2 + '#' + str + '|' + h3Counter + '. ' + str + ']]"\n');
+					this.editor.replaceSelection('- "[[' + headerSelection + '#' + tempH1 + '#' + tempH2 + '#' + str + '|' + h3Counter + '. ' + str + ']]"\n');
 
 					h3Counter++;
 					break;
