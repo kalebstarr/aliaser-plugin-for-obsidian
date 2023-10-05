@@ -244,7 +244,8 @@ class DeletionModal extends Modal {
 		contentEl.createEl('h2', {text: 'Are you sure you want to delete the frontmatter?'});
 
 		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
-			this.editor.replaceRange(' ', {line: 0, ch: 0}, {line: 1, ch: this.frontmatterLength});
+			// set cursor to the end of the file
+			this.editor.replaceRange('\f', {line: 0, ch: 0}, {line: 1, ch: this.frontmatterLength});
 			this.close();
 		};
 		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
