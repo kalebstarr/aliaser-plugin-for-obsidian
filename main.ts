@@ -33,8 +33,6 @@ export default class AliasPlugin extends Plugin {
 				// 2. The frontmatter already exists, and the aliases section is not empty
 				// 3. The frontmatter doesn't exist, and the aliases section is empty
 
-				new AliasModal(this.app, editor).open();
-
 				printer.printAliases(dictionary, headerSelection);
 			}
 		});
@@ -246,43 +244,6 @@ class DeletionModal extends Modal {
 		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
 			// set cursor to the end of the file
 			this.editor.replaceRange('\f', {line: 0, ch: 0}, {line: 1, ch: this.frontmatterLength});
-			this.close();
-		};
-		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
-			this.close();
-		};
-		
-		// can be ignored, due to button element existing and error handling
-		if (contentEl.querySelector('button') != null) {
-			contentEl.querySelector('button').style.backgroundColor = 'red';
-			contentEl.querySelector('button').style.margin = '10px';
-		}
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
-	}
-}
-
-class AliasModal extends Modal {
-	editor: Editor;
-
-	constructor(app: App, editor: Editor) {
-		super(app);
-		this.editor = editor;
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		this.editor.setSelection({line: this.editor.getCursor().line, ch: 0}, {line: this.editor.getCursor().line + 1, ch: 0});
-		const  selection = this.editor.getSelection();
-
-		contentEl.createEl('h2', {text: 'Is this your heading?'});
-		contentEl.createEl('p', {text: selection});
-
-		contentEl.createEl('button', {text: 'Confirm'}).onclick = () => {
-			
 			this.close();
 		};
 		contentEl.createEl('button', {text: 'Exit'}).onclick = () => {
