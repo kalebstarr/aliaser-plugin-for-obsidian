@@ -24,17 +24,16 @@ export default class AliasPlugin extends Plugin {
 				// const that = new Collector(editor.getValue(), editor);
 				const list = new LineCollector(editor.getValue());
 				const printer = new Printer(editor);
-				const dictionary = list.getDictionary();
+				const dictionary = list.getHeaderDictionary();
 
-				editor.setSelection({line: editor.getCursor().line, ch: 0}, {line: editor.getCursor().line + 1, ch: 0});
-				const  headerSelection = editor.getSelection().replace('\n', '');
+				const fileName = view.file?.basename;
 
 				// Three scenarios:
 				// 1. The frontmatter already exists, and the aliases section is empty
 				// 2. The frontmatter already exists, and the aliases section is not empty
 				// 3. The frontmatter doesn't exist, and the aliases section is empty
 
-				printer.printAliases(dictionary, headerSelection);
+				printer.printAliases(dictionary, fileName || '');
 			}
 		});
 
@@ -177,7 +176,7 @@ class LineCollector {
 		return list;
 	}
 
-	getDictionary() {
+	getHeaderDictionary() {
 		const lines = this.getListOfLines();
 		const dictionary = new Map<string, number>();
 
