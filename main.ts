@@ -47,9 +47,11 @@ export default class AliasPlugin extends Plugin {
 				const excludeFirstLine = editor.getRange({line: 1, ch: 0}, {line: editor.lastLine(), ch: 0})
 				const frontmatterEnd = excludeFirstLine.indexOf('---');
 
-				const frontmatterLength = firstLineLength + frontmatterEnd;
+				if (frontmatterEnd != -1) {
+					const frontmatterLength = firstLineLength + frontmatterEnd;
 
-				new DeletionModal(this.app, editor, frontmatterLength).open();
+					new DeletionModal(this.app, editor, frontmatterLength).open();
+				}
 			}
 		});
 
