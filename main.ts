@@ -101,7 +101,6 @@ class Printer {
 		let tempH2 = "";
 
 		let h2Counter = 1;
-		let h3Counter = 1;
 
 		// properties start section
 		this.editor.setCursor(-1);
@@ -127,12 +126,10 @@ class Printer {
 					
 					tempH2 = str;
 					h2Counter++;
-					h3Counter = 1;
 					break;
 				case 3:
-					this.editor.replaceSelection('- "[[' + headerSelection + '#' + tempH1 + '#' + tempH2 + '#' + str + '|' + h3Counter + '. ' + str + ']]"\n');
+					this.editor.replaceSelection('- "[[' + headerSelection + '#' + tempH1 + '#' + tempH2 + '#' + str + '| - ' + str + ']]"\n');
 
-					h3Counter++;
 					break;
 			}
 		}
